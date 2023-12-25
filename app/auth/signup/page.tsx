@@ -27,17 +27,20 @@ export default function SignUp() {
 	} = useFormik({
 		initialValues: { name: '', email: '', password: '' },
 		validationSchema: validationSchema,
-		onSubmit: (values) => {
+		onSubmit: async (values, action) => {
 			console.log(values);
-			fetch('/api/users', {
+			action.setSubmitting(true);
+			await fetch('/api/users', {
 				method: 'POST',
 				body: JSON.stringify(values),
-			}).then(async (res) => {
-				if (res.ok) {
-					const result = await res.json();
-					console.log(result);
-				}
-			});
+			})
+				.then(async (res) => {
+					if (res.ok) {
+						const result = await res.json();
+						console.log(result);
+					}
+				})
+				.finally(() => action.setSubmitting(false));
 		},
 	});
 
@@ -72,7 +75,7 @@ export default function SignUp() {
 				onBlur={handleBlur}
 				value={password}
 			/>
-			<Button type='submit' className='w-full'>
+			<Button disabled={isSubmitting} type='submit' className='w-full'>
 				Sign up
 			</Button>
 			<div className=''>
