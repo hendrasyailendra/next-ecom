@@ -4,6 +4,7 @@ import AuthFormContainer from '@components/AuthFormContainer';
 import { XMarkIcon } from '@heroicons/react/24/outline';
 import { Button, Input } from '@material-tailwind/react';
 import { useFormik } from 'formik';
+import { toast } from 'react-toastify';
 import * as yup from 'yup';
 
 export default function SignUp() {
@@ -37,7 +38,7 @@ export default function SignUp() {
 				.then(async (res) => {
 					if (res.ok) {
 						const result = await res.json();
-						console.log(result);
+						toast.success(result.message);
 					}
 				})
 				.finally(() => action.setSubmitting(false));

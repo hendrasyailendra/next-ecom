@@ -31,5 +31,5 @@ export const POST = async (req: Request) => {
 		to: newUser.email,
 		html: `<h1>Please verify your email by clicking <a href='http://localhost:3000/verify?token=${token}&userId=${newUser._id}'>this link<a></h1>`,
 	});
-	return NextResponse.json(newUser);
+	return NextResponse.json({ message: 'please verify your email' });
 };
